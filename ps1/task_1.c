@@ -20,17 +20,17 @@ set_step_delay(100);
           }
           }
      pick_beeper();
+     turn_left();
+     turn_left();
  while(no_beepers_present()){
        if(front_is_clear()){
           step();
           }
        else{
-     jump_over2();
+           jump_over2();
      }
      }
      pick_beeper();
-     turn_left();
-     turn_left();
 
             turn_off();
              return 0;
@@ -57,7 +57,7 @@ set_step_delay(100);
 
 
  void jump_over2(){
-   turn_left();
+   turn_right();
    while (left_is_blocked()){
        step();
        if(beepers_present()){
@@ -77,8 +77,8 @@ set_step_delay(100);
                turn_left();
                while (front_is_clear()){
                       step();
-                     }
-  turn_left();
+                            }             
+  turn_right();
      }
 
 
