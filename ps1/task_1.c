@@ -60,10 +60,18 @@ set_step_delay(100);
    turn_left();
    while (left_is_blocked()){
        step();
+       if(beepers_present()){
+            pick_beeper();
+            turn_off();
+                   }
        }
        turn_left();
        do {
           step();
+          if(beepers_present()){
+            pick_beeper();
+            turn_off();
+          }
            }
        while (left_is_blocked());
                turn_left();
