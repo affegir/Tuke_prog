@@ -8,9 +8,14 @@ turn_on("task_1.kw");
 set_step_delay(100);
 
   put_beeper();
-  turn_left();
-  step();
-  turn_right();
+  if(front_is_clear()){
+     step();
+  }
+  else{
+    turn_left();
+    step();
+    turn_right();
+  }
     while(no_beepers_present()){
        if(front_is_clear()){
         step();
