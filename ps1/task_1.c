@@ -15,7 +15,14 @@ set_step_delay(100);
     turn_left();
     step();
     turn_right();
+    if(front_is_clear()){
+    step();
+    turn_right();
+    step();
+    turn_left();
+    }
   }
+ 
     while(no_beepers_present()){
        if(front_is_clear()){
         step();
