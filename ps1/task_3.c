@@ -67,6 +67,24 @@ while(front_is_clear()){
  turn_off();
  }
  }
+
+
+while(front_is_clear()){
+  step();
+  if(beepers_present()){
+  turn_left();
+  while(front_is_clear()){
+  step();
+  }
+  turn_left();
+  while(front_is_clear()){
+  step();
+  }
+  turn_left();
+  turn_left();
+  turn_off();
+  }
+  }
 turn_off();
 return 0;
 }
