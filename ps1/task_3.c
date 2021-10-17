@@ -4,7 +4,7 @@ void turn_right();
 
 int main(){
 turn_on("task_3.kw");
-set_step_delay(10);
+set_step_delay(30);
 
 while (front_is_clear()){
 step();
@@ -28,17 +28,45 @@ turn_left();
 turn_left();
 while(front_is_clear()){
 step();
+    if(beepers_present()){
+        turn_left();
+        while(front_is_clear()){
+                step();
+        }
+            turn_left();
+        while(front_is_clear()){
+            step();
+        }
+turn_left();
+turn_left();
+turn_off();
+    }
 }
+turn_left();
 turn_left();
 while(front_is_clear()){
 step();
 }
-turn_left();
-while(front_is_clear()){
+turn_right();
 step();
-}
-turn_left();
-turn_left();
+turn_right();
+
+while(front_is_clear()){
+ step();
+ if(beepers_present()){
+ turn_left();
+ while(front_is_clear()){
+ step();
+ }
+ turn_left();
+ while(front_is_clear()){
+ step();
+ }
+ turn_left();
+ turn_left();
+ turn_off();
+ }
+ }
 turn_off();
 return 0;
 }
