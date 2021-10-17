@@ -51,40 +51,59 @@ turn_right();
 step();
 turn_right();
 
+
+
 while(front_is_clear()){
  step();
- if(beepers_present()){
- turn_left();
- while(front_is_clear()){
- step();
- }
- turn_left();
- while(front_is_clear()){
- step();
- }
+     if(beepers_present()){
+         turn_left();
+        while(front_is_clear()){
+                 step();
+         }
+             turn_left();
+         while(front_is_clear()){
+             step();
+         }
  turn_left();
  turn_left();
  turn_off();
+     }
  }
+ turn_left();
+ turn_left();
+ while(front_is_clear()){
+ step();
  }
+ turn_right();
+ step();
+ turn_right();
+
 
 
 while(front_is_clear()){
-  step();
-  if(beepers_present()){
-  turn_left();
-  while(front_is_clear()){
-  step();
-  }
-  turn_left();
-  while(front_is_clear()){
-  step();
-  }
-  turn_left();
-  turn_left();
-  turn_off();
-  }
-  }
+ step();
+     if(beepers_present()){
+         turn_left();
+         while(front_is_clear()){
+                 step();
+         }
+             turn_left();
+         while(front_is_clear()){
+             step();
+         }
+ turn_left();
+ turn_left();
+ turn_off();
+     }
+ }
+ turn_left();
+ turn_left();
+ while(front_is_clear()){
+ step();
+ }
+ turn_right();
+ step();
+ turn_right();
 turn_off();
 return 0;
 }
