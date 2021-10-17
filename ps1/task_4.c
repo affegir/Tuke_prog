@@ -42,6 +42,27 @@ void zabor_up(){
 
  while(front_is_clear()){
             step();
+            if(beepers_present()){
+               turn_left();
+               turn_left();
+               while(front_is_clear()){
+                     step();
+               }
+               turn_left();
+               turn_left();
+               
+          while(front_is_clear()){
+             if(beepers_present()){
+             step();
+             }
+             else{
+             put_beeper();
+             step();
+             }
+             if(no_beepers_present()){
+             put_beeper();
+             }
+         } }
     }
     turn_left();
     turn_left();
