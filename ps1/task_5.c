@@ -189,6 +189,10 @@ while(front_is_clear()){
     step();
 }
 povorot1();
+if(beepers_present() && front_is_clear()){
+pick_beeper();
+turn_off();
+}
 while(no_beepers_present() && front_is_clear()){
 while(front_is_clear()){
     if(beepers_present() && front_is_clear()){
