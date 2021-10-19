@@ -26,6 +26,7 @@ while(front_is_clear()){
 while(left_is_blocked() || no_beepers_present()){
 step();
 if(front_is_blocked()){
+pick_beeper();
 turn_off();
 }
 }
