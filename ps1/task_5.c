@@ -197,6 +197,9 @@ while(no_beepers_present() && front_is_clear()){
 while(front_is_clear()){
     if(beepers_present() && front_is_clear()){
         pick_beeper();
+        if(beepers_present()){
+            pick_beeper();
+        }
         turn_off();
     }
     else{
@@ -212,7 +215,9 @@ while(front_is_clear()){
 }
 
 
-
+if(beepers_present()){
+pick_beeper();
+}
 turn_off();
 return 0;
 }
