@@ -26,6 +26,19 @@ while(front_is_clear()){
 while(left_is_blocked() || no_beepers_present()){
 step();
 if(front_is_blocked()){
+turn_left();
+turn_left();
+while(front_is_clear()){
+step();
+if(beepers_present()){
+pick_beeper();
+}
+}
+turn_left();
+turn_left();
+while(front_is_clear()){
+step();
+}
 if(beepers_present()){
 pick_beeper();
 }
