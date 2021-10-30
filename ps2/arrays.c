@@ -6,18 +6,22 @@
 float lift_a_car(const int stick_length, const int human_weight, const int car_weight)  {
             float lift_a_car2 = human_weight + car_weight;
             float lift_a_car1 = stick_length * human_weight;
-            float lift_a_car = lift_a_car1 / lift_a_car2; 
+            float lift_a_car3 = lift_a_car1 / lift_a_car2; 
+            float lift_a_car = floorf(lift_a_car3 * 100) / 100;
             return lift_a_car;
             }
+
+
 //2
 
 float unit_price(const float pack_price, const int rolls_count, const int pieces_count){
     float unit_price1 = pack_price / rolls_count;
     float unit_price2 = unit_price1 / pieces_count;
     float unit_price3 = unit_price2 * 100;
-    float unit_price4 = unit_price3 * 100;
-	float unit_price = roundf(unit_price4 * 100) / 100;
-    return unit_price;
+    float unit_price = roundf(unit_price3 * 100) / 100;
+    return unit_price; 
+}
+
     
 }
 //3
