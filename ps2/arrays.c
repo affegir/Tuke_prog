@@ -45,7 +45,7 @@ int opposite_number(const int n, const int number){
     else{
         int opposite_number = opposite_number1;
     }
-
+return opposite_number;
 }
 
 int main(){
