@@ -15,8 +15,8 @@ float unit_price(const float pack_price, const int rolls_count, const int pieces
     float unit_price1 = pack_price / rolls_count;
     float unit_price2 = unit_price1 / pieces_count;
     float unit_price3 = unit_price2 * 100;
-    float unit_price = unit_price2 * 100;
-	float unit_price = roundf(unit_price3 * 100) / 100;
+    float unit_price4 = unit_price3 * 100;
+	float unit_price = roundf(unit_price4 * 100) / 100;
     return unit_price;
     
 }
@@ -37,16 +37,18 @@ int collatz(const int number){
 }
 //4
 int opposite_number(const int n, const int number){
-    int i = n/2;
+    int i = n/2, p;
     int opposite_number1 = number + i;
     if(opposite_number1 > n){
-        int opposite_number = opposite_number1 - n;
+          p = opposite_number1 - n;
     }
     else{
-        int opposite_number = opposite_number1;
+        p = opposite_number1;
     }
-return opposite_number;
+    int opposite_number = p;
+    return opposite_number;
 }
+
 
 int main(){
 
