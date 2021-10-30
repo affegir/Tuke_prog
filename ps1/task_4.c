@@ -5,7 +5,7 @@ void zabor_up();
 
 int main(){
 turn_on("task_4.kw");
-set_step_delay(10);
+set_step_delay(60);
 
 while(front_is_clear() || left_is_clear()){
 zabor_up();
