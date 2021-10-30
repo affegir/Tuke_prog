@@ -14,8 +14,8 @@ float lift_a_car(const int stick_length, const int human_weight, const int car_w
 float unit_price(const float pack_price, const int rolls_count, const int pieces_count){
     float unit_price1 = pack_price / rolls_count;
     float unit_price2 = unit_price1 / pieces_count;
-    float unit_price = unit_price2 * 100;
-	float unit_price = (unit_price3 * 100) / 100;
+    float unit_price3 = unit_price2 * 100;
+	float unit_price = roundf(unit_price3 * 100) / 100;
     return unit_price;
     
 }
@@ -45,4 +45,9 @@ int opposite_number(const int n, const int number){
         int opposite_number = opposite_number1;
     }
 
+}
+
+int main(){
+
+return 0;
 }
