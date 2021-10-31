@@ -22,8 +22,7 @@ float unit_price(const float pack_price, const int rolls_count, const int pieces
     return unit_price; 
 }
 
-    
-}
+
 //3
 int collatz(const int number){
     int i = number;
