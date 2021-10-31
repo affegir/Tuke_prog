@@ -7,7 +7,7 @@ float lift_a_car(const int stick_length, const int human_weight, const int car_w
             float lift_a_car2 = human_weight + car_weight;
             float lift_a_car1 = stick_length * human_weight;
             float lift_a_car3 = lift_a_car1 / lift_a_car2; 
-            float lift_a_car = floorf(lift_a_car3 * 100) / 100;
+            float lift_a_car = roundf(lift_a_car3 * 100) / 100;
             return lift_a_car;
             }
 
