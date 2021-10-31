@@ -38,12 +38,17 @@ int collatz(const int number){
     }
     return collatz;
 }
+
 //4
+
 int opposite_number(const int n, const int number){
     int i = n/2, p;
     int opposite_number1 = number + i;
     if(opposite_number1 > n){
           p = opposite_number1 - n;
+    }
+    else if((opposite_number1 = n)){
+         p = opposite_number1;
     }
     else{
         p = opposite_number1;
@@ -51,6 +56,25 @@ int opposite_number(const int n, const int number){
     int opposite_number = p;
     return opposite_number;
 }
+
+//5
+void counter(const int input_array[], const int array_size, int result_array[2]){
+    int o = 0, p = 0;
+    for (int i = 0; i < array_size; i++) {
+
+        if(input_array[i] % 2 == 0){
+             o = o + input_array[i];
+        }
+        
+        else{
+             p = p + input_array[i];
+        }
+        
+    }
+     result_array[0] = o;
+     result_array[1] = p;
+}
+//6
 
 
 int main(){
