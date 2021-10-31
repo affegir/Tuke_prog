@@ -78,6 +78,34 @@ void counter(const int input_array[], const int array_size, int result_array[2])
 
 
 //6
+//7
+
+int array_min(const int input_array[], const int array_size){
+    int s; 
+    if(!input_array){
+     return -1;
+    }
+    for(int i=0; i < array_size; i++){
+        if(input_array[i] < s){
+            s = input_array[i];   
+        }
+    }     
+    return s; 
+}
+
+int array_max(const int input_array[], const int array_size){
+    int b; 
+    if(!input_array){
+     return -1;
+    }
+    for(int i=0; i < array_size; i++){
+        if(b < input_array[i]){
+            b = input_array[i];   
+        }
+    }     
+    return b;
+}
+
 
 
 int main(){
