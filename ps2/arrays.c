@@ -78,7 +78,7 @@ void counter(const int input_array[], const int array_size, int result_array[2])
 
 
 //6
-//7
+//7.1
 
 int array_min(const int input_array[], const int array_size){
     int s; 
@@ -93,6 +93,23 @@ int array_min(const int input_array[], const int array_size){
     return s; 
 }
 
+//8
+unsigned long special_counter(const int input_array[], const int array_size){
+int o = 0, p = 0, sum;
+    for (int i = 0; i < array_size; i++) {
+        if(i % 2 == 0){
+             o = o + input_array[i];
+        }
+        else{
+             p = p + (input_array[i] * input_array[i]);
+        }
+        
+    }
+sum = o + p;
+return sum;
+}
+
+//7.2
 int array_max(const int input_array[], const int array_size){
     int b; 
     if(!input_array){
