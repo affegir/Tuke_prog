@@ -80,7 +80,7 @@ void counter(const int input_array[], const int array_size, int result_array[2])
 //6
 //7
 int array_min(const int input_array[], const int array_size){
-    int s = 0; 
+    int s; 
     if(!input_array){
      return -1;
     }
