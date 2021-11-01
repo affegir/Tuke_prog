@@ -78,6 +78,24 @@ void counter(const int input_array[], const int array_size, int result_array[2])
 
 
 //6
+unsigned long sum_squared(const int line){
+    unsigned long long c[1000];
+    unsigned long long p = 0;
+ 
+    c[0] = 1;
+    for( int i = 1; i <= line; i++ )
+        c[i] = 0;
+ 
+    for( int j = 1; j <= line; j++ )
+        for( int i = line; i >= 1; i-- )
+            c[i] += c[i - 1];
+ 
+    for( int i = 0; i <= line; i++ )
+        p += ( c[i] * c[i] );
+ 
+    return p;
+}
+
 //7
 int array_min(const int input_array[], const int array_size){
     int s; 
