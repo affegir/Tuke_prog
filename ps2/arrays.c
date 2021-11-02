@@ -141,7 +141,27 @@ int o = 0, p = 0, sum;
 sum = o + p;
 return sum;
 }
-
+//9
+int special_numbers (const int input_array[], const int array_size, int result_array[]){
+    if (input_array==NULL){
+        return -1;
+    }
+    else{
+        for (int i=0,mass=0,k=0;array_size>i;i++,mass=0){
+            for (int j=i+1;array_size>j;j++){
+                mass+=input_array[j];
+            }
+            if (mass<input_array[i]){
+                result_array[k]=input_array[i];
+                k++;
+            }
+            if (i==array_size-1){
+                return k;
+            }
+        }
+    return -1;
+    }
+}
 
 int main(){
 
