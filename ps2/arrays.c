@@ -98,7 +98,7 @@ unsigned long sum_squared(const int line){
 
 //7
 int array_min(const int input_array[], const int array_size){
-    int s; 
+    int s = 0; 
     if(!input_array){
      return -1;
     }
@@ -112,7 +112,7 @@ int array_min(const int input_array[], const int array_size){
 }
 
 int array_max(const int input_array[], const int array_size){
-    int b; 
+    int b = 0; 
     if(!input_array){
      return -1;
     }
