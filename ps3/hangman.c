@@ -48,20 +48,6 @@ int is_word_guessed(const char secret[], const char letters_guessed[]) {
     }
     return 1;
 }
-
-void get_available_letters(const char letters_guessed[], char available_letters[])
-{
-    int i, k, end = 'z'-'a'+2;
-    for (i=0; i<end; i++)
-    {
-        if ( strchr(letters_guessed, available_letters[i]) != NULL )
-        {
-            for (k=i+1; k<end; k++)
-                available_letters[k-1] = available_letters[k];
-        }
-    }
-}
-
 void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[]) {
     int i;
     for (i = 0; secret[i]; i++){
@@ -80,8 +66,29 @@ void get_guessed_word(const char secret[], const char letters_guessed[], char gu
 
 
 
+
+
+
+void get_available_letters(const char letters_guessed[], char available_letters[])
+ {
+     int i, j = 0;
+     char *poisk, bkvi[] = "abcdefghijklmnopqrstuvwxyz";
+
+     poisk = (char *) malloc(15);
+     for (i = 0; i < strlen(bkvi); i++){
+         poisk = strchr(letters_guessed, bkvi[i]);
+         if (poisk == NULL){
+             available_letters[j++] = bkvi[i];
+             }
+         else {
+                continue;
+           }
+     available_letters[j] = '\0';
+          }
+}
+
 void hangman(const char secret[]){
-    printf("Wellcome to the game, Hangman!\n");
+	printf("Wellcome to the game, Hangman!\n");
     printf("I'm thinking of a word that is %d letters long.\n", (int)strlen(secret));
     printf("-------------\n");
 
