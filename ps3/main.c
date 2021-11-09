@@ -5,6 +5,8 @@
  
 int main (void)
 {
+
+
     srand( (unsigned int)time(NULL)/2 );
     char secret[30];
     int error = get_word(secret);

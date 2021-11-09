@@ -49,6 +49,19 @@ int is_word_guessed(const char secret[], const char letters_guessed[]) {
     return 1;
 }
 
+void get_available_letters(const char letters_guessed[], char available_letters[])
+{
+    int i, k, end = 'z'-'a'+2;
+    for (i=0; i<end; i++)
+    {
+        if ( strchr(letters_guessed, available_letters[i]) != NULL )
+        {
+            for (k=i+1; k<end; k++)
+                available_letters[k-1] = available_letters[k];
+        }
+    }
+}
+
 void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[]) {
     int i;
     for (i = 0; secret[i]; i++){
@@ -62,52 +75,45 @@ void get_guessed_word(const char secret[], const char letters_guessed[], char gu
     guessed_word[i] = '\0';
 }
 
-void get_available_letters(const char letters_guessed[], char available_letters[])
-{
-    int i, o, p = 'z' - 'a' + 2;
-    for (i = 0; i < p; i++){
-        if (strchr(letters_guessed, available_letters[i]) != NULL){
-            for (o = i + 1; o < p; o++)
-                available_letters[o - 1] = available_letters[o];
-        }
-    }
-}
+
+
+
+
 
 void hangman(const char secret[]){
     printf("Wellcome to the game, Hangman!\n");
     printf("I'm thinking of a word that is %d letters long.\n", (int)strlen(secret));
     printf("-------------\n");
 
-    char d[27] = "abcdefghijklmnopqrstuvwxyz", u[27] = { 0 }, w[30] = { 0 }, p[30] = { 0 };     
+    char available_letters[27] = "abcdefghijklmnopqrstuvwxyz", letters_guessed[27] = { 0 }, guessed_word[30] = { 0 }, input_word[30] = { 0 };     
     int hodov = 8, igra = 1, pobeda = 0, ku = 0;
     /*
-    d - 
-    u - 
-    w - 
-    p - 
-    ku - 
+    u - использованные буквы
+    w - как выглядит на экране слово
+    p - введенные пользователем буквы 
+    ku - количество букв в u
 
     */
 
     while (igra > 0){
         printf("You have %d guesses left.\n", hodov);
-        printf("Available letters: %s\n", d);
+        printf("Available letters: %s\n", available_letters);
         printf("Please guess a letter: ");
-        fgets(p, 30, stdin);
-        for (int i = 0; p[i]; i++){
-            if (p[i] == '\n') p[i] = '\0';
-            if (isalpha(p[i])) p[i] = tolower(p[i]);
+        fgets(input_word, 30, stdin);
+        for (int i = 0; input_word[i]; i++){
+            if (input_word[i] == '\n') input_word[i] = '\0';
+            if (isalpha(input_word[i])) input_word[i] = tolower(input_word[i]);
         }
         
         int result = 0;
         int error = 0;
-        for (int i = 0; p[i]; i++){
-            if (!isalpha(p[i])) continue;   
+        for (int i = 0; input_word[i]; i++){
+            if (!isalpha(input_word[i])) continue;   
 
-            if (strchr(u, p[i]) != NULL)
+            if (strchr(letters_guessed, input_word[i]) != NULL)
                 error++;    
             else
-                if (strchr(secret, p[i]) != NULL)
+                if (strchr(secret, input_word[i]) != NULL)
                     result++; 
         }
 
@@ -118,19 +124,19 @@ void hangman(const char secret[]){
         else if (error > 0) printf("Oops! You've already guessed that letter: ");
         else    printf("Good guess: ");
 
-        for (int i = 0; p[i]; i++){
-            if (isalpha(p[i]) && strchr(u, p[i]) == NULL)
-                u[ku++] = p[i];
+        for (int i = 0; input_word[i]; i++){
+            if (isalpha(input_word[i]) && strchr(letters_guessed, input_word[i]) == NULL)
+                letters_guessed[ku++] = input_word[i];
         }
 
-        get_guessed_word(secret, u, w);
-        get_available_letters(u, d);
+        get_guessed_word(secret, letters_guessed, guessed_word);
+        get_available_letters(letters_guessed, available_letters);
 
-        for (int i = 0; w[i]; i++) 
-            printf("%2c", w[i]);
+        for (int i = 0; guessed_word[i]; i++) 
+            printf("%2c", guessed_word[i]);
         printf("\n-------------\n");
         if (hodov == 0) igra = 0;
-        if (is_word_guessed(secret, u)){
+        if (is_word_guessed(secret, letters_guessed)){
             pobeda = 1;
             igra = 0;
         }
