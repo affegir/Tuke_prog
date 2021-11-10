@@ -3,37 +3,10 @@
  #include <stdlib.h>
  #include <string.h>
  #include <sys/stat.h>
+ #include <stdbool>
  #include "hangman.h"
 
-     // check if file exists first and is readable
-     FILE* fp = fopen(WORDLIST_FILENAME, "rb");
-    if (fp == NULL) {
-         fprintf(stderr, "No such file or directory: %s\n", WORDLIST_FILENAME);
-         return 1;
-     }
-
-     // get the filesize first
-     struct stat st;
-     stat(WORDLIST_FILENAME, &st);
-     long int size = st.st_size;
-
-     do {
-         // generate random number between 0 and filesize
-         long int random = (rand() % size) + 1;
-         // seek to the random position of file
-         fseek(fp, random, SEEK_SET);
-         // get next word in row ;)
-         int result = fscanf(fp, "%*s %20s", secret);
-         if (result != EOF)
-             break;
-     } while (1);
-
-     fclose(fp);
-
-    return 0;
- }
-
- void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[]) { 
+void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[]) { 
     int secret_index = 0; 
  
     char secret_letter = '\0'; 
@@ -143,7 +116,7 @@ void hangman(const char secret[]) {
                 } 
             } 
         }
---getWord; 
+        --getWord; 
  
         if (getWord == 0) { 
             printf("-------------\n"); 
