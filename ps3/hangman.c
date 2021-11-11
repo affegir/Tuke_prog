@@ -1,126 +1,372 @@
 #include <stdio.h>
- #include <ctype.h>
- #include <stdlib.h>
- #include <string.h>
- #include <sys/stat.h>
- #include <stdbool.h>
- #include "hangman.h"
+#include <stdlib.h>
+#include <sys/stat.h>
+#include "hangman.h"
+#include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
+
+
+int get_word(char secret[]) {
+    // check if file exists first and is readable
+    FILE* fp = fopen(WORDLIST_FILENAME, "rb");
+    if (fp == NULL) {
+        fprintf(stderr, "No such file or directory: %s\n", WORDLIST_FILENAME);
+        return 1;
+    }
+
+    // get the filesize first
+    struct stat st;
+    stat(WORDLIST_FILENAME, &st);
+    long int size = st.st_size;
+
+    do {
+        // generate random number between 0 and filesize
+        long int random = (rand() % size) + 1;
+        // seek to the random position of file
+        fseek(fp, random, SEEK_SET);
+        // get next word in row ;)
+        int result = fscanf(fp, "%*s %20s", secret);
+        if (result != EOF)
+            break;
+    } while (1);
+
+    fclose(fp);
+
+    return 0;
+}
+
+int is_word_guessed(const char secret[], const char letters_guessed[]) {
+    int i;
+    char* poisk;
+    poisk = (char*)malloc(30);
+
+    for (i = 0; i < strlen(secret); i++) {
+        poisk = strchr(letters_guessed, secret[i]);
+        while (poisk == NULL) {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[]) {
-    int secret_index = 0;
-
-    char secret_letter = '\0';
-
-    while (secret[secret_index] != '\0') {
-        secret_letter = secret[secret_index];
-
-        char guessed_letter = '\0';
-        int guessed_index = 0;
-        bool is_secret_letter_in_gueesed_letters = false;
-
-        while (is_secret_letter_in_gueesed_letters == false && letters_guessed[guessed_index] != '\0') {
-            guessed_letter = letters_guessed[guessed_index];
-            if (secret_letter == guessed_letter)
-                is_secret_letter_in_gueesed_letters = true;
-            guessed_index++;
+    int i;
+    for (i = 0; secret[i]; i++){
+        if (strchr(letters_guessed, secret[i]) != NULL){
+            guessed_word[i] = secret[i];
         }
-        if (is_secret_letter_in_gueesed_letters == false)
-            guessed_word[secret_index] = '_';
-        else
-            guessed_word[secret_index] = guessed_letter;
-
-        secret_index++;
+        else{
+            guessed_word[i] = '_';
+        }
     }
-    guessed_word[secret_index] = '\0';
-
-    for (int i = 0; i < strlen(secret) - 1; i++)
-        printf("%c ", guessed_word[i]);
-
-    printf("%c\n", guessed_word[strlen(secret) - 1]);
+    guessed_word[i] = '\0';
 }
 
 
-void hangman(const char secret[]) {
-    int getWord, order;
-    int y, x;
-    int letter, secret_leter;
-    int massive = strlen(secret);
-    order = 0;
-    getWord = 8;
-    char guessed_letters[100];
+void get_available_letters(const char letters_guessed[], char available_letters[]){
+    char alphabet[26] = "abcdefghijklmnopqrstuvwxyz";
+    int guess = 0;
+    int c_guess = guess;
 
-    printf("Welcome to the game, Hangman!\n");
-    printf("I am thinking of a word that is %d letters long.\n", massive); ////
-
-    char available_letters[100];
-    guessed_letters[0] = '\0';
-
-    while (getWord > 0) {
-        printf("-------------\n"); ///
-        printf("You have %d guesses left.\n", getWord);
-        printf("Available letters: "); ///
-        get_available_letters(guessed_letters, available_letters);
-        printf("Please guess a letter: ");
-        char guessed_word[100];
-        scanf("%s", guessed_word);
-
-        if (strlen(guessed_word) > 1) {
-            if (is_word_guessed(secret, guessed_word) == 1) {
-                printf("Congratulations, you won!\n");
-                getWord = 0;
-            } else {
-                printf("Sorry, bad guess. The word was %s.\n", secret);
-                getWord = -1;
+    int nj = 0;
+    
+    for (int i = 0; i < strlen(letters_guessed); i += 1) {
+        c_guess = guess;
+        for (int j = 0; j < strlen(alphabet); j += 1) {
+            if (letters_guessed[i] == alphabet[j] && c_guess == guess){
+                guess += 1;
+                //printf("str   %c %d %d\n", letters2[j], i, j);
+                unsigned long size_l = strlen(alphabet);
+                nj = j;
+            
+                for (nj = j; nj < size_l - 1; nj++) {
+                    alphabet[nj] = alphabet[nj + 1];
+                }
             }
-        } else {
-            char guessed_letter = guessed_word[0];
-            guessed_letter = tolower(guessed_letter);
 
-            if (guessed_letter > 122 || guessed_letter < 97) {
-                ++getWord;
-                printf("Oops! %s is not a valid letter: ", guessed_word);
-                get_guessed_word(secret, guessed_letters, guessed_word);
-            } else {
-                int alphabet = strlen(available_letters);
-                letter = 0;
-                for (y = 0; y < alphabet; y++) {
-                    if (available_letters[y] == guessed_letter)
-                        letter = 0 + 1;
-                }
-                if (letter == 0) {
-                    ++getWord;
-                    printf("Oops! You've already guessed that letter: ");
-                    get_guessed_word(secret, guessed_letters, guessed_word);
-                } else {
-                    guessed_letters[order] = guessed_letter;
-                    ++order;
-                    guessed_letters[order + 0 + 1] = '\0';
-                    secret_leter = 0;
+        }
+    }
+    alphabet[strlen(alphabet)] = '\0';
+    int nn = 26;
+    unsigned long n = strlen(letters_guessed);
+    if(n == 26){
+        alphabet[0] = '\0';
+        nn = 27;
+    }
+    
+    //printf("%lu  is - n\n", n);
+    //unsigned long n = n - strlen(letters_guessed);
+    for (int i = 0; i < nn - n; i += 1) {
+        available_letters[i] = alphabet[i];
+        available_letters[i+1] = '\0';
+        //printf("%s  [%d]\n", available_letters, i);
+    }
+    //available_letters[strlen(available_letters)] = '\0';
+    //printf("len  %lu\n", strlen(available_letters));
 
-                    for (x = 0; x < massive; x++) {
-                        if (secret[x] == guessed_letter)
-                            secret_leter = 1;
-                    }
-                    if (secret_leter == 1) {
-                        printf("Good guess: ");
-                        ++getWord;
-                    } else
-                        printf("Oops! That letter is not in my word: ");
-                    get_guessed_word(secret, guessed_letters, guessed_word);
+    //printf("avar lett  %s  %lu\n", available_letters, strlen(available_letters));
+}
 
-                    if (is_word_guessed(secret, guessed_word) == 1) {
-                        printf("-------------\n");
-                        getWord = 0;
-                        printf("Congratulations, you won!\n");
-                    }
-                }
+
+bool is_char_guessed(const char secret[], char letter[]){
+    
+    int i;
+    int guess = 0;
+        
+    int c_guess = guess;
+
+    for (i = 0; i < strlen(secret); i += 1) {
+        c_guess = guess;
+        for (int j = 0; j < strlen(letter); j++) {
+            if (secret[i] == letter[j] && c_guess == guess){
+                guess = 1;
+                return true;
             }
         }
-        --getWord;
+    }
+    return false;
+}
 
-        if (getWord == 0) {
+
+void hangman(const char secret[]){
+    //secret = "addressees";
+    //printf("[%s]\n", secret);
+    printf("Welcome to the game, Hangman!\n");
+    printf("I am thinking of a word that is %lu letters long.\n", strlen(secret));
+    //test arena
+  
+
+    bool stop_while = true;
+    int guesses = 8;
+    
+    char letters_guessed[30] = {""};
+    char letone[30] = {""};
+    char result2[30] = {""};  //strlen(secret) + 1
+    int n = 0;
+    
+    int ii = 0;
+    
+    int m = 0;
+    short tupo = 0;
+    
+    while ( (stop_while) || (guesses > 0) ) {
+        if(guesses == 0){
+            stop_while = false;
             printf("-------------\n");
             printf("Sorry, you ran out of guesses. The word was %s.\n", secret);
+            break;
+        }
+        printf("-------------\n");
+        printf("You have %d guesses left.\n", guesses);
+        int nn = 26;
+        if (strlen(letters_guessed) == 26) {
+            nn = 27;
+        }
+        char result1[nn-strlen(letters_guessed)];
+        //printf("lett g = [%s]\n", letters_guessed);
+        //printf("%lu - right n\n", strlen(letters_guessed));
+        get_available_letters(letters_guessed, result1);
+
+        printf("Available letters: %s\n", result1);
+        char letter[15];
+        printf("Please guess a letter: ");
+        scanf("%s", letter);
+        tupo += 1;
+
+        // 'A' to 'a'..
+        unsigned long length = strlen(letter);
+        for (unsigned long i = 0; i < length || letter[i] != '\0'; i += 1){
+            if(letter[i] != '\0'){
+                letter[i] = tolower(letter[i]);
+            }
+        }
+        
+        // @...?
+        int flag = 0;
+        char alphabet2[] = "abcdefghijklmnopqrstuvwxyz";
+        for (int a = 0; a < strlen(letter); a++) {
+            for (int a2 =0; a2 < 26; a2++) {
+                if (letter[a] == alphabet2[a2]) {
+                    flag = 1;
+                }
+            }
+        }
+        if (flag == 0) {
+            get_guessed_word(secret, letters_guessed, result2);
+            //printf("%s  lett \n", letters_guessed);
+            char result2r[strlen(result2)+1];
+            //printf("%s  res2\n", result2);
+        
+            //printf("%s 2r\n", result2r);
+            int a = 0;
+            for (short a2 = 0; a2 < (strlen(result2)*2) - 1; a2+=2) {
+                //printf("%c\n", result2r[a]);
+                result2r[a2] = result2[a];
+                if(result2[a+1] != '\0'){
+                    result2r[a2+1] = ' ';
+                    a++;
+                }
+                else{
+                    result2r[a2+1] = '\0';
+                }
+                //a++;
+            }
+            printf("Oops! '%s' is not a valid letter: %s\n", letter, result2r);
+            continue;
+        }
+        
+        // the end ...))
+        n += 1;
+        
+        // //Was already used// OR Bad Guess
+        
+        
+        if (strlen(letter) == strlen(secret)) {
+            if (is_word_guessed(secret, letter) == 1) {
+                printf("Congratulations, you won!\n");
+                break;
+            }
+            else if(is_word_guessed(secret, letter) == 0){
+                printf("Sorry, bad guess. The word was %s.\n", secret);
+                break;
+            }
+        }
+        
+        char letter_rez[strlen(letter)];
+        if (1){
+            for (int l = 0; l < strlen(letter); l++) {
+                letter_rez[l] = letter[l];
+            }
+            unsigned long q = strlen(letter_rez);
+            for (int i = 0; i < q; i++) {
+                for (int j = i + 1; j < q; j++) {
+                    if (letter_rez[i] == letter_rez[j]) {
+                        for (int d = j; d < q; d++) {
+                            letter_rez[d] = letter_rez[d+1];
+                        }
+                        j -= 1;
+                        q -= 1;
+                    }
+                }
+                
+            }
+            
+            for (int i = 0; i < strlen(letter); i++) {
+                if (is_char_guessed(letone, letter) == false) {
+                    letters_guessed[m] = letter_rez[i];
+                    m++;
+                }
+            }
+            
+            get_guessed_word(secret, letters_guessed, result2);
+            if (is_char_guessed(letone, letter)) {
+                if(n > 1 && strlen(letter) == 1){
+                    //printf("%s  lett \n", letters_guessed);
+                    char result2r[strlen(result2)+1];
+                    //printf("%s  res2\n", result2);
+                
+                    //printf("%s 2r\n", result2r);
+                    int a = 0;
+                    for (short a2 = 0; a2 < (strlen(result2)*2) - 1; a2+=2) {
+                        //printf("%c\n", result2r[a]);
+                        result2r[a2] = result2[a];
+                        if(result2[a+1] != '\0'){
+                            result2r[a2+1] = ' ';
+                            a++;
+                        }
+                        else{
+                            result2r[a2+1] = '\0';
+                        }
+                        //a++;
+                    }
+                    printf("Oops! You've already guessed that letter: %s\n", result2r);
+                    continue;
+                }
+            }
+            for (int i2 = 0; i2 < strlen(letter); i2 += 1) {
+                letone[ii] = letter[i2];
+                ii += 1;
+            }
+            if (is_char_guessed(secret, letter) == false){
+                //printf("%s  lett \n", letters_guessed);
+                char result2r[strlen(result2)+1];
+                //printf("%s  res2\n", result2);
+            
+                //printf("%s 2r\n", result2r);
+                int a = 0;
+                for (short a2 = 0; a2 < (strlen(result2)*2) - 1; a2+=2) {
+                    //printf("%c\n", result2r[a]);
+                    result2r[a2] = result2[a];
+                    if(result2[a+1] != '\0'){
+                        result2r[a2+1] = ' ';
+                        a++;
+                    }
+                    else{
+                        result2r[a2+1] = '\0';
+                    }
+                    //a++;
+                }
+
+                printf("Oops! That letter is not in my word: %s\n", result2r);
+                guesses -= 1;
+                continue;
+            }
+            
+        }
+        //printf("letter  =  %d\n", is_char_guessed(secret, letter));
+        //printf("letter  =  %s  [%lu]\n", letter, strlen(letter));
+        
+        //printf("num = %d\n", num);
+
+        //printf("[%s]\n", letters_guessed);
+        get_guessed_word(secret, letters_guessed, result2);
+        //result2[(strlen(result2r)*2) - 1] = '\0';
+        //printf("%s 2\n", result2);
+        if (is_word_guessed(secret, letters_guessed) == 1 ) {
+            stop_while = false;
+            char result2r[strlen(result2)+1];
+            int a = 0;
+            for (short a2 = 0; a2 < (strlen(result2)*2) - 1; a2+=2) {
+                //printf("%c\n", result2r[a]);
+                result2r[a2] = result2[a];
+                if(result2[a+1] != '\0'){
+                    result2r[a2+1] = ' ';
+                    a++;
+                }
+                else{
+                    result2r[a2+1] = '\0';
+                }
+                //a++;
+            }
+            printf("Good guess: %s\n", result2r);
+            printf("-------------\n");
+            printf("Congratulations, you won!\n");
+            break;
+        }
+        else if (is_char_guessed(secret, letter)){
+            //printf("%s  lett \n", letters_guessed);
+            char result2r[strlen(result2)+1];
+            //printf("%s  res2\n", result2);
+        
+            //printf("%s 2r\n", result2r);
+            int a = 0;
+            for (short a2 = 0; a2 < (strlen(result2)*2) - 1; a2+=2) {
+                //printf("%c\n", result2r[a]);
+                result2r[a2] = result2[a];
+                if(result2[a+1] != '\0'){
+                    result2r[a2+1] = ' ';
+                    a++;
+                }
+                else{
+                    result2r[a2+1] = '\0';
+                }
+                //a++;
+            }
+            printf("Good guess: %s\n", result2r);
+            //printf("-------------\n");
         }
     }
 }
+
+
