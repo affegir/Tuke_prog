@@ -1,5 +1,4 @@
-
-
+#include <stdbool.h>
 /**
  * Function draw game field
  * @param rows count of rows
