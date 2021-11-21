@@ -3,6 +3,36 @@
 #include <stdbool.h>
 #include "ballsortpuzzle.h"
 
+// Colors Library
+// Created by Teslasoft (Dmytro Ostapenko) on 11/11/2021. (v1.0)
+//
+
+/* Uncomment if you are using this code as separated library (importing as "colors.h" instead of putting this code directly to your C file)
+#ifndef COLORS_COLORS_H
+#define COLORS_COLORS_H
+#endif //COLORS_COLORS_H
+*/
+
+const char RED[8] = "\033[0;31m\0";
+ const char YELLOW[8] = "\033[0;33m\0";
+ const char GREEN[8] = "\033[0;32m\0";
+//const char BLUE[8] = "\033[0;34m\0";
+ const char MAGENTA[8] = "\033[0;35m\0";
+ const char CYAN[8] = "\033[0;36m\0";
+// const char BLACK[8] = "\033[0;30m\0";
+// const char WHITE[8] = "\033[0;37m\0";
+// 
+// const char BOLD_RED[8] = "\033[1;31m\0";
+// const char BOLD_YELLOW[8] = "\033[1;33m\0";
+// const char BOLD_GREEN[8] = "\033[1;32m\0";
+ //const char BOLD_BLUE[8] = "\033[1;34m\0";
+// const char BOLD_MAGENTA[8] = "\033[1;35m\0";
+// const char BOLD_CYAN[8] = "\033[1;36m\0";
+// const char BOLD_BLACK[8] = "\033[1;30m\0";
+// const char BOLD_WHITE[8] = "\033[1;37m\0";
+// 
+ const char RESET[5] = "\033[0m\0";
+
 
 
 void generator(const int rows, const int columns, char field[rows][columns])
@@ -152,17 +182,17 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
             if (field[pos_y2 - 1][pos_x2] == 0) field[pos_y2 - 1][pos_x2] = 32;
             if (field[pos_y2 - 1][pos_x2] == 8) field[pos_y2 - 1][pos_x2] = 32;
         } else if (pos_y2 == 0) {
-            printf("Column is full!\n");
+            printf("%sColumn is full!%s\n", RED, RESET);
         } else if (field[pos_y2][pos_x2] == field[pos_y1][pos_x1]) {
             field[pos_y2 - 1][pos_x2] = field[pos_y1][pos_x1];
             field[pos_y1][pos_x1] = ' ';
             if (field[pos_y2 - 1][pos_x2] == 0) field[pos_y2 - 1][pos_x2] = 32;
             if (field[pos_y2 - 1][pos_x2] == 8) field[pos_y2 - 1][pos_x2] = 32;
         } else {
-            printf("Colors must be same!\n");
+            printf("%sColors must be same!%s\n", RED, RESET);
         }
     } else {
-        printf("Invalid position!\n");
+        printf("%sInvalid position!%s\n", RED, RESET);
     }
 }
 
@@ -185,24 +215,30 @@ bool check(const int rows, const int columns, char field[rows][columns]) {
 
 void game_field(const int rows, const int columns, char field[rows][columns])
 {
+    printf("   %sX%s", CYAN, RESET);
+    for(int i = 0; i<columns; i++){
+        printf("   %sX%s", CYAN, RESET);
+    }
     printf("\n");
     for(int j = 0; j<rows; j++){
-        printf(" %d | ", j+1);
+        printf(" %s%d | %s",CYAN, j+1, RESET);
         for(int i = 0; i<columns; i++){
-            printf("%c | ", field[j][i]);        
+            printf("%s%c%s %s| %s",YELLOW, field[j][i],RESET, CYAN, RESET);
+           
+                  
         }
         printf("\n");
     }
     
     printf("    ");
     for(int j = 0; j<columns; j++){
-        printf("--- ");
+        printf("%s--- %s", CYAN, RESET);
 
     }
     putchar('\n');
     printf("     ");
     for(int j = 0; j<columns; j++){
-        printf("%d   ", j+1);
+        printf("%s%d   %s",CYAN, j+1, RESET);
     }
     printf("\n");
 
@@ -218,16 +254,16 @@ void ball_sort_puzzle() {
         game_field(rows, columns, field);
         int a, b = 0;
 
-        printf("From: ");
+        printf("%sFrom: %s",MAGENTA, RESET);
         scanf("%d", &a);
         getchar();
 
-        printf("To: ");
+        printf("%sTo: %s",MAGENTA, RESET);
         scanf("%d", &b);
         getchar();
 
         down_possible(rows, columns, field, a, b);
     }
     game_field(rows, columns, field);
-    printf("You won!\n");
+    printf("%sYou won!%s\n", RED, RESET);
 }
