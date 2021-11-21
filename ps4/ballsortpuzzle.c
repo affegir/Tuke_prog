@@ -52,15 +52,15 @@ void generator(const int rows, const int columns, char field[rows][columns])
     do {
         rand_column1 = rand()%columns + (1 - 1);
         rand_column2 = rand()%columns + (1 - 1);
-    } while (rand_column1 == rand_column2);
+    } while (rand_column1 == rand_column2);   //generate 2 identical columns
 
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < rows; i++)    //fill in the "empty" space
     {
         field[i][rand_column1] = 32;
-        field[i][rand_column2] = 32;
+        field[i][rand_column2] = 32;  
     }
     
-    for (int i = 0; i < rows && columns > 2; i++)
+    for (int i = 0; i < rows && columns > 2; i++) //random replacement of t for signs
     {
         /* code */
         int a, b = 0;
