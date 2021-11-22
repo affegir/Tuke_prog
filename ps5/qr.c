@@ -16,12 +16,17 @@ void encode_char(const char character, bool bits[8])
 
 char decode_byte(const bool bits[8])
 {
-    char c = 0;
-    for (int i = 0; i < 8; ++i) 
-        if (bits[i])
-            c |= 1 << i;
+
+char c = 0;
+    for (int i = 0; i < 8; ++i)
+    {
+        c *= 2;
+        c += (bits[i]);
+    } 
     return c;
         }
+
+
 int main()
 {
 	return 0;
