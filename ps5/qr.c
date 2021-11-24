@@ -6,10 +6,10 @@
 void encode_char(const char character, bool bits[8])
 {
     char p = character;
-    int i;
+    int i, o = 0;
     for (i = 7; i >= 0; i--)
     {
-        bits[i] = p & 1;
+        bits[i] = p & o;
         p >>= 1;
     }
 }
