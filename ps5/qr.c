@@ -6,7 +6,7 @@
 void encode_char(const char character, bool bits[8])
 {
     char p = character;
-    int i, o = 0;
+    int i, o = 1;
     for (i = 7; i >= 0; i--)
     {
         bits[i] = p & o;
