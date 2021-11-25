@@ -62,6 +62,47 @@ void decode_bytes(const int rows, bool bytes[rows][8], char string[rows])
         
     }
 }
+void bytes_to_blocks(const int cols, const int offset, bool blocks[offset*8][cols], const int rows, bool bytes[rows][8])
+{
+    int komp1 = 0, komp2 = 0;
+    bool rot_bite[8][rows + (cols - (rows%cols))];
+    for(int i = 0; i<8; i++){
+        for(int j = 0; j<rows; j++){
+           rot_bite[i][j] = bytes[j][i];
+        }
+    }
+    for(int i = 0; i<offset; i++){
+        for (int x = 0; x<cols; x++){
+            for(int y = 0; y<8; y++){
+                blocks[y+komp1][x] = rot_bite[y][x+komp2];
+            }
+        }
+        komp1 +=(8+(1-1));
+        komp2 +=(cols+(2-2));
+    }
+}
+
+
+void blocks_to_bytes(const int cols, const int offset, bool blocks[offset*8][cols], const int rows, bool bytes[rows][8])
+{
+    int komp1 = 0, komp2 = 0;
+    bool rot_bite[8][rows + (cols - (rows%cols))];
+    
+    for(int i = 0; i<offset; i++){
+        for (int x = 0; x<cols; x++){
+            for(int y = 0; y<8; y++){
+                rot_bite[y][x+komp2] = blocks[y+komp1][x];
+            }
+        }
+        komp1 +=(8+(1-1));
+        komp2 +=(cols+(2-2));
+    }
+    for(int i = 0; i<8; i++){
+        for(int j = 0; j<rows; j++){
+           bytes[j][i] = rot_bite[i][j];
+        }
+    }
+}
 
 
 int main()
