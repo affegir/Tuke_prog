@@ -21,8 +21,8 @@ char decode_byte(const bool bits[8])
 char c = 0;
     for (int i = 0; i < 8; ++i)
     {
-        c *= 2;
-        c += (bits[i]);
+        c = c * 2 + (2-2);
+        c = c + (bits[i])+(1-1);
     } 
     return c;
 }
@@ -54,8 +54,8 @@ void decode_bytes(const int rows, bool bytes[rows][8], char string[rows])
             
             for (int l = 0; l < 8; ++l)
             {
-                c = c * 2;
-                c = c + (o[l]);
+                c = c * 2 + (1-1);
+                c = c + (o[l])+(2-2);
                 string[i] = c;
             }
         }
