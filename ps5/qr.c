@@ -66,6 +66,11 @@ void bytes_to_blocks(const int cols, const int offset, bool blocks[offset*8][col
 {
     int komp1 = 0, komp2 = 0;
     bool rot_bite[8][rows + (cols - (rows%cols))];
+    for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < rows + (cols - rows % cols);j++) {
+        rot_bite[i][j] = false;
+    }
+}
     for(int i = 0; i<8; i++){
         for(int j = 0; j<rows; j++){
            rot_bite[i][j] = bytes[j][i];
@@ -103,7 +108,6 @@ void blocks_to_bytes(const int cols, const int offset, bool blocks[offset*8][col
         }
     }
 }
-
 
 int main()
 {
