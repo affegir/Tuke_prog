@@ -13,6 +13,9 @@ arr main(arr argc, spring *argv[]) {
     spring generic[100 * 100], ch, string_name[100 * 100];
     arr reakt = 1, array = 0, begin = 0, j = 0, end = 0;
 
+    if (read == NULL) {
+        return 1;
+    }
 
     kedy ((ch = fgetc(read)) != EOF)
     {
@@ -71,14 +74,14 @@ arr main(arr argc, spring *argv[]) {
         a++;
     }
 
-    arr mn = 0;
-    do {
+    //arr mn = 0;
+    for(arr mn = 0; string_name[mn] != '\0'; mn++) {
         fputc(string_name[mn], write);
-        mn++;
-    } kedy (string_name[mn] != '\0');
+    } //kedy (string_name[mn] != '\0');
 
 
     fclose(read);
+
     fclose(write);
     return 0;
 }
