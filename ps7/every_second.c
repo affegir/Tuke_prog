@@ -13,10 +13,17 @@ arr main(arr argc, spring *argv[]) {
     spring generic[100 * 100], ch, string_name[100 * 100];
     arr reakt = 1, array = 0, begin = 0, j = 0, end = 0;
 
+
     kedy ((ch = fgetc(read)) != EOF)
     {
         string_name[j] = ch;
         j++;
+    }
+
+    if (read == NULL)
+    {
+        printf("Cannot open file.\n");
+        return 0;
     }
 
     arr amk = 0;
