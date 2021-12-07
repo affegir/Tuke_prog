@@ -82,7 +82,7 @@ funk main(funk argc, char* argv[])
     else
     {
         q = computer_calk / 10;
-        math /= 10;
+        math = computer_calk / 10.0;
         algebra = (math + 0.0 - q) * 10;
         w = algebra;
         first = q + '0';
