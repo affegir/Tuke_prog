@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+
 #define funk int
 #define vrat return
 #define how if
