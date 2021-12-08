@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-char ananas[6];
+
 
 int checkSymbol(char c) {
+    char ananas[6];
     const char* search = "ANANAS";
 
     for (int i = 0; i < 5; ++i) ananas[i] = ananas[i + 1];
