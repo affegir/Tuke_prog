@@ -26,6 +26,6 @@ int main() {
 
     fclose(f);
     f = fopen("bananas.txt", "wt");
-    fprintf(f, "%d\n", count);
+    fputc(count, f);
     fclose(f);
     }
