@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-
-
 int checkSymbol(char c) {
     char ananas[6];
     const char* search = "ANANAS";
